@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'zircon_api',
+    'InstaGramUser',
+    'notification_api',
 
 ]
 
