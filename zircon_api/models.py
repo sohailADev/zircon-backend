@@ -10,4 +10,3 @@ class Post(models.Model):
     # created_by = models.ForeignKey(InstagramUser)
     # create_date = models.DateTimeField(default=now, editable=False)
     pass
-
