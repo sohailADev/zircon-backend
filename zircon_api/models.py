@@ -30,5 +30,21 @@ class Notification(models.Model):
     is_seen = models.BooleanField(default=False)
 
     
-    
+class Login(models.Model):
+    username = models.CharField(max_length=240)
+    password = models.CharField(widget=forms.PasswordInput)
 
+
+class Signup(models.Model):
+    username = models.CharField(max_length=240)
+    password = models.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = models.InstaGramUser
+        fields = [
+            'email',
+            'phone',
+            'bio',
+            'gender',
+            'website',
+        ]
