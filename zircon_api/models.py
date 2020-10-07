@@ -10,6 +10,7 @@ class InstaGramUser(AbstractUser):
     website = models.URLField(blank=True, null=True)
     GENDER_CHOICES = [('Male','Male'),('Female', 'Female'),('Custom', 'Custom'),('Prefer Not To Say', 'Prefer Not To Say')]
     gender = models.CharField(max_length=20, default='Prefer Not To Say', choices=GENDER_CHOICES)
+    email = models.EmailField(max_length=254)
     # REQUIRED_FIELDS = ['full_name',]
 
     def __str__(self):
@@ -23,6 +24,9 @@ class Post(models.Model):
     # location = models.URLField()
     author = models.ForeignKey(InstaGramUser, on_delete=models.CASCADE, related_name="author")
     create_date = models.DateTimeField(default=now, editable=False)
+
+    def __str__(self):
+        return self.caption
 
 class Notification(models.Model):
     user_to_notify = models.ForeignKey(InstaGramUser, on_delete=models.CASCADE, related_name="user_to_notify")
