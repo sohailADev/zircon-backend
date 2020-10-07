@@ -22,6 +22,8 @@ from django.conf.urls.static import static
 
 router = routers.DefaultRouter()
 router.register(r'posts', api_views.PostViewSet)
+router.register(r'login', api_views.LoginViewSet)
+router.register(r'signup', api_views.SignupViewSet)
 urlpatterns = [
     path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
