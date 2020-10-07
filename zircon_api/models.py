@@ -17,7 +17,7 @@ class InstaGramUser(AbstractUser):
 
 class Post(models.Model):
     caption = models.CharField(max_length=280)
-    image = models.ImageField(upload_to='user_upload/')
+    image = models.ImageField(upload_to='static/user_upload/')
     # likes = models.
     # comment = 
     # location = models.URLField()
@@ -28,6 +28,7 @@ class Notification(models.Model):
     user_to_notify = models.ForeignKey(InstaGramUser, on_delete=models.CASCADE, related_name="user_to_notify")
     post_to_be_notify = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_to_be_notify")
     is_seen = models.BooleanField(default=False)
+    # we are not software engineers
 
     
     
