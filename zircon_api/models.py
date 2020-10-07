@@ -1,4 +1,5 @@
 from django.db import models
+from django import forms
 from django.utils.timezone import now
 from django.contrib.auth.models import AbstractUser
 
@@ -8,48 +9,35 @@ class InstaGramUser(AbstractUser):
     bio = models.TextField(blank=True, null=True)
     phone = models.CharField(max_length=12, blank=True)
     website = models.URLField(blank=True, null=True)
-    GENDER_CHOICES = [('Male','Male'),('Female', 'Female'),('Custom', 'Custom'),('Prefer Not To Say', 'Prefer Not To Say')]
-    gender = models.CharField(max_length=20, default='Prefer Not To Say', choices=GENDER_CHOICES)
+    GENDER_CHOICES = [('Male', 'Male'), ('Female', 'Female'),
+                      ('Custom', 'Custom'), ('Prefer Not To Say', 'Prefer Not To Say')]
+    gender = models.CharField(
+        max_length=20, default='Prefer Not To Say', choices=GENDER_CHOICES)
     email = models.EmailField(max_length=254)
     # REQUIRED_FIELDS = ['full_name',]
 
     def __str__(self):
         return self.full_name
 
+
 class Post(models.Model):
     caption = models.CharField(max_length=280)
     image = models.ImageField(upload_to='static/user_upload/')
     # likes = models.
-    # comment = 
+    # comment =
     # location = models.URLField()
-    author = models.ForeignKey(InstaGramUser, on_delete=models.CASCADE, related_name="author")
+    author = models.ForeignKey(
+        InstaGramUser, on_delete=models.CASCADE, related_name="author")
     create_date = models.DateTimeField(default=now, editable=False)
 
     def __str__(self):
         return self.caption
 
+
 class Notification(models.Model):
-    user_to_notify = models.ForeignKey(InstaGramUser, on_delete=models.CASCADE, related_name="user_to_notify")
-    post_to_be_notify = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_to_be_notify")
+    user_to_notify = models.ForeignKey(
+        InstaGramUser, on_delete=models.CASCADE, related_name="user_to_notify")
+    post_to_be_notify = models.ForeignKey(
+        Post, on_delete=models.CASCADE, related_name="post_to_be_notify")
     is_seen = models.BooleanField(default=False)
     # we are not software engineers
-
-    
-class Login(models.Model):
-    username = models.CharField(max_length=240)
-    password = models.CharField(widget=forms.PasswordInput)
-
-
-class Signup(models.Model):
-    username = models.CharField(max_length=240)
-    password = models.CharField(widget=forms.PasswordInput)
-
-    class Meta:
-        model = models.InstaGramUser
-        fields = [
-            'email',
-            'phone',
-            'bio',
-            'gender',
-            'website',
-        ]
