@@ -3,6 +3,12 @@ from django import forms
 from django.utils.timezone import now
 from django.contrib.auth.models import AbstractUser
 
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
+
 
 class InstaGramUser(AbstractUser):
     full_name = models.CharField(max_length=80)
@@ -14,11 +20,17 @@ class InstaGramUser(AbstractUser):
     gender = models.CharField(
         max_length=20, default='Prefer Not To Say', choices=GENDER_CHOICES)
     email = models.EmailField(max_length=254)
+    # USERNAME_FIELD = ''
     # REQUIRED_FIELDS = ['full_name',]
 
     def __str__(self):
         return self.full_name
 
+        
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 
 class Post(models.Model):
     caption = models.CharField(max_length=280)

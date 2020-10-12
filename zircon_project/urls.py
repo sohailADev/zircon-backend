@@ -21,17 +21,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.decorators.csrf import csrf_exempt
 
-from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework.authtoken import views
 
 
 router = routers.DefaultRouter()
 router.register(r'posts', api_views.PostViewSet, basename='posts')
 router.register(r'signup', api_views.SignupViewSet, basename='signup')
-router.register(r'login', api_views.LoginViewSet, basename='login')
 
 
 urlpatterns = [
     path('api/', include(router.urls)),
+    path('api/login/', views.obtain_auth_token),
     path('admin/', admin.site.urls),
 ]
 if settings.DEBUG:
